@@ -1,2 +1,4 @@
-it/viktor/jee/start/ConfigurazioneRest.class
-resources/Ping.class
+it/viktor/jee/start/configuration/ConfigurazioneRest.class
+it/viktor/jee/start/resources/Ping.class
+it/viktor/jee/start/resources/PeopleResources.class
+it/viktor/jee/start/entity/Person.class

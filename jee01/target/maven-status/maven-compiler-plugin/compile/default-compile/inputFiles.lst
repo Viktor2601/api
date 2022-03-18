@@ -1,2 +1,4 @@
-/home/tss/Viktor/java/jakarta/api/jee01/src/main/java/it/viktor/jee/start/ConfigurazioneRest.java
-/home/tss/Viktor/java/jakarta/api/jee01/src/main/java/resources/Ping.java
+/home/tss/Viktor/java/jakarta/api/jee01/src/main/java/it/viktor/jee/start/entity/Person.java
+/home/tss/Viktor/java/jakarta/api/jee01/src/main/java/it/viktor/jee/start/configuration/ConfigurazioneRest.java
+/home/tss/Viktor/java/jakarta/api/jee01/src/main/java/it/viktor/jee/start/resources/PeopleResources.java
+/home/tss/Viktor/java/jakarta/api/jee01/src/main/java/it/viktor/jee/start/resources/Ping.java
