@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -23,13 +24,10 @@ import javax.ws.rs.core.MediaType;
 public class Ping {
 
     /**
-    @GET // TIPO DI RICHESTA HTTP
-    @Produces(MediaType.TEXT_PLAIN)
-    public String ping() {
-        return "ok !!!! " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-    }
-    */
-
+     * @GET // TIPO DI RICHESTA HTTP
+     * @Produces(MediaType.TEXT_PLAIN) public String ping() { return "ok !!!! "
+     * + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME); }
+     */
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("{id}") // PARAMETRO
@@ -39,13 +37,12 @@ public class Ping {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String ping2(@QueryParam("language") String language) {
-        
-        if (language == null){
-            throw new BadRequestException("Parametro language mancante"); 
+    public String ping2(@DefaultValue("it") @QueryParam("language") String language) {
+
+        if (language == null) {
+            throw new BadRequestException("Parametro language mancante");
         }
-        
-        
+
         DateTimeFormatter df;
 
         switch (language) {
