@@ -20,6 +20,7 @@ import javax.persistence.Version;
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
     // ATTRIBUTI
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;

@@ -22,10 +22,13 @@ import javax.persistence.Table;
 @Table(name = "t_comment")
 public class Comment extends BaseEntity implements Serializable{
     // ATTRIBUTI
+    
     @ManyToOne(optional = false)
     private User author;
+    
     @Column(nullable = false)
     private String message;
+    
     @ManyToOne(optional = false)
     private Post post;
     

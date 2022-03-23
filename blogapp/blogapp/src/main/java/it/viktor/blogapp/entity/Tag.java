@@ -21,6 +21,7 @@ import javax.persistence.Table;
 @Table (name = "t_tag")
 public class Tag extends BaseEntity implements Serializable{
     // ATTRIBUTI
+    
     private String name;
     
     // GETTER AND SETTER

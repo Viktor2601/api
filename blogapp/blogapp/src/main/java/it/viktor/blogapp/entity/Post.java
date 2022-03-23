@@ -28,13 +28,18 @@ import org.mariadb.jdbc.plugin.codec.LocalDateTimeCodec;
 @Table(name = "t_post")
 public class Post extends BaseEntity implements Serializable {
     // ATTRIBUTI
+    
     private LocalDateTime created = LocalDateTime.now();
+    
     @ManyToOne(optional = false)
     private User author;
+    
     @Column(nullable = false)
     private String title;
+    
     @Column(nullable = false)
     private String body;
+    
     @ManyToMany
     @JoinTable(name = "post_tag", 
             joinColumns = @JoinColumn(name = "post_id"),

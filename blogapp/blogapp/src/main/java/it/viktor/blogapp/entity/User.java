@@ -6,20 +6,36 @@ package it.viktor.blogapp.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table (name = "t_user")
 public class User extends BaseEntity implements Serializable{
+    
     // ATTRIBUTI
+    
+    //@JsonbProperty(value= "name") // annottazione json
+    @NotBlank
     @Column(nullable = false)
     private String name;
+    
+    @NotBlank
     @Column(nullable = false)
     private String surname;
+    
+    @NotBlank
+    @Email
     @Column(nullable = false)
     private String email;
+    
+    @NotBlank
+    @Size(min = 8)
     @Column(nullable = false)
     private String password;
    
