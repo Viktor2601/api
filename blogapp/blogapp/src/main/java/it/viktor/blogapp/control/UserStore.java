@@ -31,4 +31,8 @@ public class UserStore {
     public User save(User entity){
        return em.merge(entity);
     }
+    
+    public void delete(Long id) {
+        em.remove(em.getReference(User.class, id));
+    }
 }
