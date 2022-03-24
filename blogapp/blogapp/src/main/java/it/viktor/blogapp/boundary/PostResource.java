@@ -4,8 +4,8 @@
  */
 package it.viktor.blogapp.boundary;
 
-import it.viktor.blogapp.control.UserStore;
-import it.viktor.blogapp.entity.User;
+import it.viktor.blogapp.control.PostStore;
+import it.viktor.blogapp.entity.Post;
 import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -24,38 +24,35 @@ import javax.ws.rs.core.MediaType;
  * @author tss
  */
 
-
-@Path("/users")
-public class UsersResource {
+@Path("/posts")
+public class PostResource {
     
-    @Inject // crea un istanza di UserStore
-    private UserStore store;
- 
+    @Inject
+    private PostStore store;
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> all(){
-        return store.all();               
+    public List<Post> all(){
+        return store.all();
     }
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void create (@Valid User entity){ // @Valid -> valida il parametro e se non lo è lo converte in un errore conforme a rest 
+    public void create(@Valid Post entity){
         store.save(entity);
     }
     
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public User find(@PathParam("id") Long id){
-        return store.find(id).orElseThrow(() -> new NotFoundException("User non trovato. id=" + id));
+    public Post find(@PathParam("id") Long id){
+        return store.find(id).orElseThrow( () -> new NotFoundException("Post non trovato. id=" + id ));
     }
-    
     
     @DELETE
     @Path("{id}")
-    public void delete(@PathParam("id") Long id){
-        User found = store.find(id).orElseThrow(() -> new NotFoundException("User non trovato. id=" + id));
+    public void delete (@PathParam("id") Long id){
+        Post found = store.find(id).orElseThrow(() -> new NotFoundException("Post non trovato. id=" + id));
         store.delete(found.getId());
     }
 }
