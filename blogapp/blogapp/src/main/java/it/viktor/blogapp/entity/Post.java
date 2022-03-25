@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,11 +41,14 @@ public class Post extends BaseEntity implements Serializable {
     @Column(nullable = false)
     private String body;
     
+    @JsonbTransient
     @ManyToMany
     @JoinTable(name = "post_tag", 
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags;
+    
+   
     
     // GETTER AND SETTER
 
@@ -52,6 +56,7 @@ public class Post extends BaseEntity implements Serializable {
         return created;
     }
 
+    @JsonbTransient // NON FA VEDERE 
     public void setCreated(LocalDateTime created) {
         this.created = created;
     }

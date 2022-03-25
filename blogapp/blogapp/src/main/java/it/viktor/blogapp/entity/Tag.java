@@ -5,6 +5,7 @@
 package it.viktor.blogapp.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 @Table (name = "t_tag")
 public class Tag extends BaseEntity implements Serializable{
     // ATTRIBUTI
-    
+    @Column(nullable = false)
     private String name;
     
     // GETTER AND SETTER

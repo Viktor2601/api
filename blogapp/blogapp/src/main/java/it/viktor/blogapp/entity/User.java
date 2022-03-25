@@ -7,6 +7,7 @@ package it.viktor.blogapp.entity;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -65,11 +66,13 @@ public class User extends BaseEntity implements Serializable{
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
+    @JsonbTransient
     public String getPassword() {
         return password;
     }
 
+    
     public void setPassword(String password) {
         this.password = password;
     }

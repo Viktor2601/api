@@ -20,9 +20,23 @@ public class PostStore {
     @PersistenceContext
     EntityManager em;
     
-    
+    /**
+     * ritorna tutti i post
+     * @return 
+     */
     public List<Post> all(){
-        return em.createQuery("select e from Post e ").getResultList();
+        return em.createQuery("select e from Post e order by  e.created DESC ").getResultList();
+    }
+    
+    /**
+     * ritorna tutti i post di un utente 
+     * @param userId
+     * @return 
+     */
+    public List<Post> byUser(Long userId){
+        return em.createQuery("select e from Post e where e.author.id = :userId order by e.created DESC",Post.class)
+                .setParameter("userId",userId)
+                .getResultList();
     }
     
     

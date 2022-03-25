@@ -6,6 +6,7 @@ package it.viktor.blogapp.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,6 +35,7 @@ public abstract class BaseEntity implements Serializable {
         return id;
     }
 
+    @JsonbTransient // NON FA VEDERE DA JSON A JAVA
     public void setId(Long id) {
         this.id = id;
     }
