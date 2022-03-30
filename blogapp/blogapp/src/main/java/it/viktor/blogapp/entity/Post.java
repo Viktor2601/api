@@ -4,22 +4,25 @@
  */
 package it.viktor.blogapp.entity;
 
+import it.viktor.blogapp.adapters.UserTypeAdapter;
+import it.viktor.blogapp.boundary.PostResource;
+import it.viktor.blogapp.boundary.UserResource;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.bind.annotation.JsonbTransient;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import org.mariadb.jdbc.plugin.codec.LocalDateTimeCodec;
+import javax.ws.rs.core.UriBuilder;
 
 /**
  *
@@ -33,6 +36,7 @@ public class Post extends BaseEntity implements Serializable {
     private LocalDateTime created = LocalDateTime.now();
     
     @ManyToOne(optional = false)
+    @JsonbTypeAdapter(UserTypeAdapter.class)
     private User author;
     
     @Column(nullable = false)
@@ -46,7 +50,7 @@ public class Post extends BaseEntity implements Serializable {
     @JoinTable(name = "post_tag", 
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private Set<Tag> tags;
+    private Set<Tag> tags = new TreeSet<>();
     
    
     
@@ -100,5 +104,16 @@ public class Post extends BaseEntity implements Serializable {
         return "Post{" + "created=" + created + ", author=" + author + ", title=" + title + ", body=" + body + ", tags=" + tags + '}';
     }
     
+    
+    // METODI PER TRASFORMARE LA CLASSE POST IN JSON
+    
+    public JsonObject toJson (){
+          return Json.createObjectBuilder()
+                .add("id", this.id)
+                .add("link", UriBuilder.fromResource(PostResource.class)
+                        .path(PostResource.class, "comments")
+                        .build(this.id).toString())
+                .build();
+    }
     
 }

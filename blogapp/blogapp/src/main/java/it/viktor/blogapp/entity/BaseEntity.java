@@ -35,7 +35,7 @@ public abstract class BaseEntity implements Serializable {
         return id;
     }
 
-    @JsonbTransient // NON FA VEDERE DA JSON A JAVA
+    //@JsonbTransient // NON FA VEDERE DA JSON A JAVA
     public void setId(Long id) {
         this.id = id;
     }

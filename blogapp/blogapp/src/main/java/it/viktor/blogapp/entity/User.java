@@ -4,9 +4,11 @@
  */
 package it.viktor.blogapp.entity;
 
+import it.viktor.blogapp.boundary.UserResource;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.json.bind.annotation.JsonbProperty;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,35 +16,33 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import javax.ws.rs.core.UriBuilder;
 
 @Entity
-@Table (name = "t_user")
-public class User extends BaseEntity implements Serializable{
-    
+@Table(name = "t_user")
+public class User extends BaseEntity implements Serializable {
+
     // ATTRIBUTI
-    
     //@JsonbProperty(value= "name") // annottazione json
     @NotBlank
     @Column(nullable = false)
     private String name;
-    
+
     @NotBlank
     @Column(nullable = false)
     private String surname;
-    
+
     @NotBlank
     @Email
     @Column(nullable = false)
     private String email;
-    
+
     @NotBlank
     @Size(min = 8)
     @Column(nullable = false)
     private String password;
-   
 
     // GETTER AND SETTER
-
     public String getName() {
         return name;
     }
@@ -66,20 +66,17 @@ public class User extends BaseEntity implements Serializable{
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     @JsonbTransient
     public String getPassword() {
         return password;
     }
 
-    
     public void setPassword(String password) {
         this.password = password;
     }
-    
-     
-    // TO STRING
 
+    // TO STRING
     @Override
     public int hashCode() {
         int hash = 7;
@@ -114,11 +111,24 @@ public class User extends BaseEntity implements Serializable{
         return Objects.equals(this.password, other.password);
     }
 
+     // METODI PER TRASFORMARE LA CLASSE POST IN JSON
     
+    public JsonObject toJsonSlice() {
 
+        return Json.createObjectBuilder()
+                .add("id", this.id)
+                .add("link", UriBuilder.fromResource(UserResource.class)
+                        .path(UserResource.class, "find")
+                        .build(this.id).toString())
+                .build();
+    }
     
+    public JsonObject toJson(){
+        return Json.createObjectBuilder()
+                .add("id", this.id)
+                .add("user", this.email)
+                .build();
+                
+    }
 
-    
-    
-    
 }

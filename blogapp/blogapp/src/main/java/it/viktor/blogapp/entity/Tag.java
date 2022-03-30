@@ -20,6 +20,19 @@ public class Tag extends BaseEntity implements Serializable{
     @Column(nullable = false)
     private String name;
     
+    // COSTRUTTORI 
+
+    public Tag() {
+    }
+
+    
+    public Tag(String name) {
+        this.name = name;
+    }
+    
+    
+    
+    
     // GETTER AND SETTER
 
     public String getName() {
