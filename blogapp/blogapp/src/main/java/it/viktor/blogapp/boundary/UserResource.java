@@ -8,18 +8,23 @@ import it.viktor.blogapp.control.PostStore;
 import it.viktor.blogapp.control.UserStore;
 import it.viktor.blogapp.entity.Post;
 import it.viktor.blogapp.entity.User;
+import it.viktor.blogapp.security.control.JWTManager;
 import java.util.List;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -35,6 +40,11 @@ public class UserResource {
  
     @Inject
     private PostStore postStore;
+    
+    @Inject
+    private JWTManager jwtManger;
+    
+    
     
     
     // USERS
@@ -56,7 +66,8 @@ public class UserResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void create (@Valid User entity){ // @Valid -> valida il parametro e se non lo è lo converte in un errore conforme a rest 
-        userStore.save(entity);
+       
+        userStore.create(entity);
     }
     
     /**
@@ -108,5 +119,18 @@ public class UserResource {
          User found = userStore.find(id).orElseThrow(() -> new NotFoundException("User non trovato. id=" + id));
          entity.setAuthor(found);
          postStore.save(entity);
+    }
+    
+    // METODI AUTENTICAZIONE
+    @POST
+    @Path("login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public JsonObject login (@Valid Credential credential){
+        User u = userStore.login(credential).orElseThrow(() -> new NotAuthorizedException(Response.status(Response.Status.UNAUTHORIZED).build()));
+        String jwt = jwtManger.generate(u);
+        return Json.createObjectBuilder()
+                .add("jwt", jwt)
+                .build();
     }
 }

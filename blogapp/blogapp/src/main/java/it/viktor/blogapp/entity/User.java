@@ -67,7 +67,6 @@ public class User extends BaseEntity implements Serializable {
         this.email = email;
     }
 
-    @JsonbTransient
     public String getPassword() {
         return password;
     }
