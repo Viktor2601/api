@@ -10,6 +10,8 @@ import it.viktor.blogapp.entity.Post;
 import it.viktor.blogapp.entity.User;
 import it.viktor.blogapp.security.control.JWTManager;
 import java.util.List;
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -25,6 +27,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 /**
  *
@@ -33,6 +36,7 @@ import javax.ws.rs.core.Response;
 
 
 @Path("/users")
+@DenyAll
 public class UserResource {
     
     @Inject // crea un istanza di userStore
@@ -43,6 +47,9 @@ public class UserResource {
     
     @Inject
     private JWTManager jwtManger;
+    
+    @Inject
+    private JsonWebToken token;
     
     
     
@@ -65,8 +72,8 @@ public class UserResource {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @PermitAll
     public void create (@Valid User entity){ // @Valid -> valida il parametro e se non lo è lo converte in un errore conforme a rest 
-       
         userStore.create(entity);
     }
     
@@ -126,6 +133,7 @@ public class UserResource {
     @Path("login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @PermitAll
     public JsonObject login (@Valid Credential credential){
         User u = userStore.login(credential).orElseThrow(() -> new NotAuthorizedException(Response.status(Response.Status.UNAUTHORIZED).build()));
         String jwt = jwtManger.generate(u);
